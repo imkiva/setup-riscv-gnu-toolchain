@@ -8,7 +8,11 @@ The following code snippet installs the nightly version of Aya and adds it to th
 - name: Setup RISCV GNU Toolchain
   uses: imkiva/setup-riscv-gnu-toolchain@latest
   with:
-    version: 'latest'
+    version: 'latest' # or tag name
+    arch: riscv64     # or riscv32
+    libc: glibc       # or elf, musl
+    compiler: gcc     # or llvm
+    os: ubuntu-22.04  # or ubuntu-20.04
 ```
 
 Available versions are `latest` or any valid [tag name here](https://github.com/riscv-collab/riscv-gnu-toolchain/tags).

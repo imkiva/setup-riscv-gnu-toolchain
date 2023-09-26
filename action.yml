@@ -9,6 +9,25 @@ inputs:
       The version of RISCV GNU Toolchain to use. You can use `latest` to get the latest version.
       All available versions can be found at [here](https://github.com/riscv-collab/riscv-gnu-toolchain/tags).
 
-runs :
+  arch:
+    required: false
+    default: 'riscv64'
+    description: riscv64 or riscv32
+
+  libc:
+    required: false
+    default: 'glibc'
+    description: glibc, elf, or musl
+
+  compiler:
+    required: false
+    default: 'gcc'
+    description: gcc or llvm
+
+  os:
+    required: false
+    default: 'ubuntu-22.04'
+    description: ubuntu-22.04 or ubuntu-20.04
+runs:
   using: 'node16'
   main: 'dist/index.js'

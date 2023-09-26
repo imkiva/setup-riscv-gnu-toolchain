@@ -4,69 +4,47 @@ import * as exec from "@actions/exec";
 import * as os from "os";
 import * as path from "path";
 
-enum Distribution {
-  JLink = "jlink",
-  Native = "native",
-}
-
-function parseDistribution(distribution: string): Distribution {
-  switch (distribution) {
-    case "jlink":
-      return Distribution.JLink;
-    case "native":
-      return Distribution.Native;
-    default:
-      throw new Error("Unknown distribution: " + distribution);
-  }
-}
-
 async function run(): Promise<void> {
   try {
     const version = core.getInput("version");
-    const distribution = parseDistribution(core.getInput("distribution"));
-    const buildFromSource = core.getInput("build-from-source") === "true";
+    const arch = core.getInput("arch");
+    const libc = core.getInput("libc");
+    const compiler = core.getInput("compiler");
+    const os = core.getInput("os");
 
-    core.info("Hello! This is Aya Shameimaru. I am going to setup myself with the following options:");
-    core.info("version: " + version);
-    core.info("distribution: " + distribution);
-    core.info("build-from-source: " + buildFromSource);
+    core.info("Hello! I am going to setup riscv-collab/riscv-gnu-toolchain with the following configuration:");
+    core.info("version:  " + version);
+    core.info("arch:     " + arch);
+    core.info("libc:     " + libc);
+    core.info("compiler: " + compiler);
+    core.info("os:       " + os);
 
-    if (buildFromSource) core.setFailed("Sorry, I can't build from source yet.");
-    if (distribution === Distribution.Native) core.setFailed("Sorry, I can't install native distribution yet.");
+    let url = `https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/${version}/${arch}-${libc}-${os}-${compiler}-nightly-${version}-nightly.tar.gz`
+    core.info("Downloading from " + url)
 
-    const ayaHome = await installAya(version, distribution);
-    core.info("Nice to meet you!, This is");
-    await exec.exec(path.join(ayaHome, "bin", "aya"), ["--version"]);
+    const toolchainHome = await install(url);
+    core.info("Nice to meet you! This is");
+    await exec.exec(path.join(toolchainHome, "riscv", "bin", "riscv64-unknown-linux-gnu-gcc"), ["--version"]);
     
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   }
 }
 
-async function installAya(version: string, distribution: Distribution): Promise<string> {
+async function install(url: string): Promise<string> {
   const os = detectOS();
-  const arch = detectArch();
-  core.info(`Installing Aya ${version} for ${os}-${arch} from ${distribution}`);
-
-  const exe = detectExe();
-  let url: string;
-  switch (distribution) {
-    case Distribution.JLink:
-      url = `https://github.com/aya-prover/aya-dev/releases/download/${version}/aya-prover_jlink_${os}-${arch}.zip`;
-      break;
-    case Distribution.Native:
-      url = `https://github.com/aya-prover/aya-dev/releases/download/${version}/aya-prover_native_${os}-${arch}${exe}`;
-      break;
+  if (os !== "linux") {
+    core.setFailed("Currently only Linux is supported");
+    throw new Error("Currently only Linux is supported");
   }
 
   core.info("Downloading from " + url);
   const file = await tool.downloadTool(url);
   core.info("Downloaded to " + file);
 
-  // TODO: native distribution
-  const ayaHome = await tool.extractZip(file);
-  core.addPath(path.join(ayaHome, "bin"));
-  return ayaHome;
+  const toolchainHome = await tool.extractTar(file);
+  core.addPath(path.join(toolchainHome, "riscv", "bin"));
+  return toolchainHome;
 }
 
 /** convert current OS to GitHub runner names */
@@ -76,15 +54,6 @@ function detectOS(): string {
   if (osType.includes("darwin")) return "macos";
   if (osType.includes("windows")) return "windows";
   throw new Error("Unknown OS: " + osType);
-}
-
-function detectExe(): string {
-  return os.type().toLowerCase().includes("windows") ? ".exe" : "";
-}
-
-/** currently GitHub only supports x86-64 runners */
-function detectArch(): string {
-  return "x64";
 }
 
 run()
