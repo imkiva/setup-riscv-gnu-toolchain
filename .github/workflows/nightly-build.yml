@@ -1,4 +1,4 @@
-# Thanks to: https://github.com/wenkokke/setup-agda/blob/latest/.github/workflows/release.yml
+# Thanks to: https://github.com/wenkokke/setup-agda/blob/v1.0.0/.github/workflows/release.yml
 name: nightly
 
 on:

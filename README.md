@@ -1,15 +1,17 @@
-# Setup Aya in your GitHub Actions
+# Setup [riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain) in your GitHub Actions
 
 ## Use this Action
 
 The following code snippet installs the nightly version of Aya and adds it to the PATH:
 
 ```yaml
-- name: Setup Aya
-  uses: aya-prover/setup-aya@latest
+- name: Setup RISCV GNU Toolchain
+  uses: imkiva/setup-riscv-gnu-toolchain@latest
   with:
-    version: 'nightly-build'
+    version: 'latest'
 ```
+
+Available versions are `latest` or any valid [tag name here](https://github.com/riscv-collab/riscv-gnu-toolchain/tags).
 
 ## Develop this Action
 
