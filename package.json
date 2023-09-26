@@ -1,8 +1,8 @@
 {
-  "name": "setup-aya",
+  "name": "setup-riscv-gnu-toolchain",
   "version": "1.0.0",
   "private": true,
-  "description": "Set up Aya in your GitHub Actions workflow.",
+  "description": "Set up RISCV GNU Toolchain in your GitHub Actions workflow.",
   "main": "lib/main.js",
   "packageManager": "pnpm@7.16.1",
   "scripts": {
@@ -11,33 +11,34 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aya-prover/setup-aya.git"
+    "url": "git+https://github.com/imkiva/setup-riscv-gnu-toolchain.git"
   },
   "keywords": [
     "actions",
     "setup",
-    "aya",
-    "aya-prover"
+    "riscv",
+    "gnu",
+    "toolchain"
   ],
-  "author": "Aya Prover",
+  "author": "Kiva Oyama",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "@actions/http-client": "^2.0.1",
-    "@actions/tool-cache": "^2.0.1",
-    "@actions/exec": "^1.1.0"
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/http-client": "^2.1.1",
+    "@actions/tool-cache": "^2.0.1"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@typescript-eslint/parser": "^5.47.1",
-    "@vercel/ncc": "^0.36.0",
-    "eslint": "^8.30.0",
-    "eslint-plugin-github": "^4.6.0",
-    "eslint-plugin-jest": "^27.1.7",
-    "jest": "^29.3.1",
+    "@types/node": "^18.18.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vercel/ncc": "^0.36.1",
+    "eslint": "^8.50.0",
+    "eslint-plugin-github": "^4.10.0",
+    "eslint-plugin-jest": "^27.4.0",
+    "jest": "^29.7.0",
     "js-yaml": "^4.1.0",
     "prettier": "2.8.1",
-    "ts-jest": "^29.0.3",
-    "typescript": "^4.9.4"
+    "ts-jest": "^29.1.1",
+    "typescript": "^4.9.5"
   }
 }
