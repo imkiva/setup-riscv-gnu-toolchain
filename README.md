@@ -2,7 +2,7 @@
 
 ## Use this Action
 
-The following code snippet installs the nightly version of Aya and adds it to the PATH:
+The following code snippet installs the nightly version of GNU Toolchain and adds it to the PATH:
 
 ```yaml
 - name: Setup RISCV GNU Toolchain
