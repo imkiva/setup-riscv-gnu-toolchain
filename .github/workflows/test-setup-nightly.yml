@@ -26,7 +26,7 @@ jobs:
         run: echo $RISCV_SYSROOT
 
       - name: Test compilation
-        run: riscv64-unknown-linux-gnu-gcc .github/main.c -o test
+        run: riscv64-unknown-linux-gnu-gcc .github/main.c -o ./test
 
       - name: Test run
-        run: qemu-riscv64 -L$RISCV_SYSROOT test
+        run: qemu-riscv64 -L $RISCV_SYSROOT ./test
