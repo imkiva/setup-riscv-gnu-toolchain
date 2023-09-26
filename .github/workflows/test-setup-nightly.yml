@@ -6,27 +6,27 @@ on:
 
 jobs:
   test-setup-nightly:
-    name: Setup latest Aya
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    name: Setup Toolchain
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Aya
+      - name: Setup Toolchain
         uses: ./
         with:
-          version: 'nightly-build'
-          distribution: 'jlink'
-          build-from-source: 'false'
-      - name: Show aya version
-        run: aya --version
-      - name: Show aya-lsp version
-        run: aya-lsp --version
-      - name: Show aya help
-        run: aya --help
-      - name: Show aya-lsp help
-        run: aya-lsp --help
+          version: '2023.09.26'
+          arch: riscv64
+          libc: glibc
+          compiler: gcc
+          os: ubuntu-22.04
 
-      - name: Test typechecking
-        run: aya --ascii-only .github/main.aya
+      - name: Show installation directory
+        run: echo $RISCV_HOME
+
+      - name: Show sysroot directory
+        run: echo $RISCV_SYSROOT
+
+      - name: Test compilation
+        run: riscv64-unknown-linux-gnu-gcc .github/main.aya -o test
+
+      - name: Test run
+        run: qemu-riscv64 -L$RISCV_SYSROOT test

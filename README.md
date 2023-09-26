@@ -17,6 +17,8 @@ The following code snippet installs the nightly version of Aya and adds it to th
 
 Available versions are `latest` or any valid [tag name here](https://github.com/riscv-collab/riscv-gnu-toolchain/tags).
 
+**NOTE: `latest` version is not supported yet.**
+
 ## Develop this Action
 
 - Install a modern version of Node.js

@@ -58,6 +58,7 @@ function run() {
             core.info("libc:     " + libc);
             core.info("compiler: " + compiler);
             core.info("os:       " + os);
+            // TODO: support parsing `latest` version to tag name
             let url = `https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/${version}/${arch}-${libc}-${os}-${compiler}-nightly-${version}-nightly.tar.gz`;
             core.info("Downloading from " + url);
             const toolchainHome = yield install(url);
@@ -82,6 +83,8 @@ function install(url) {
         core.info("Downloaded to " + file);
         const toolchainHome = yield tool.extractTar(file);
         core.addPath(path.join(toolchainHome, "riscv", "bin"));
+        core.exportVariable("RISCV_HOME", path.join(toolchainHome, "riscv"));
+        core.exportVariable("RISCV_SYSROOT", path.join(toolchainHome, "riscv", "sysroot"));
         return toolchainHome;
     });
 }
